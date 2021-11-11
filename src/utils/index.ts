@@ -1,0 +1,1 @@
+export { getTransitions } from './getTransistions'
