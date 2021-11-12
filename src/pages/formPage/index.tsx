@@ -2,7 +2,8 @@ import React, { FC } from 'react'
 import { Formik, Form } from 'formik'
 import {
   Autocomplete,
-  Box, Button,
+  Box,
+  Button,
   Card,
   CardContent,
   Grid,
@@ -18,8 +19,6 @@ const getFinalStates = (x:number):string[] => {
   }
   return myArray
 }
-
-console.log(getFinalStates(1))
 
 const DefaultStatesPage:FC = () => (
     <Formik
@@ -38,7 +37,8 @@ const DefaultStatesPage:FC = () => (
       }}
       onSubmit={async (values, { resetForm }) => {
         console.log(values)
-        await wait(500)
+        // toast.success('Created Your Machine!')
+        await wait(850)
         resetForm()
       }}
     >
@@ -52,7 +52,7 @@ const DefaultStatesPage:FC = () => (
         touched,
         values,
       }) => (
-        <Card>
+        <Card sx={{ m: 20 }}>
           <Box sx={{ p: 3 }}>
             <CardContent>
               <Form autoComplete="off">
@@ -60,6 +60,13 @@ const DefaultStatesPage:FC = () => (
                   container
                   spacing={3}
                 >
+                  <Grid
+                    item
+                    md={12}
+                    xs={12}
+                  >
+                    <h1>NFA CONFIGURATION:</h1>
+                  </Grid>
                   <Grid
                     item
                     md={6}
@@ -146,7 +153,7 @@ const DefaultStatesPage:FC = () => (
                 type="submit"
                 variant="contained"
               >
-                Next
+                Submit
               </Button>
             </Box>
           </Box>
