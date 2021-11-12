@@ -1,86 +1,10 @@
 import React, { FC } from 'react'
-import { Autocomplete, TextField } from '@mui/material'
-import { GraphViz } from './components'
-import {
-  myStates,
-  myAcceptableStrings,
-  allStates,
-  finalStates,
-  initialState,
-  transitions,
-} from './tempData'
-import { State } from './types'
+import { DefaultStatesPage } from './pages'
 
-const myArray:State[] = []
-for (let i = 1; i <= 4; i++) {
-  myArray.push({
-    id: `q${i}`,
-  })
-}
-myArray[0].initial = true
-
-console.log(myArray)
 const App:FC = () => (
 <>
-    <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-     <div>
-       <h1>States:</h1>
-       {myStates.map(({
-         id: label,
-         final,
-         initial,
-       }) => (
-         <div key={label}>
-           <h3>{label}</h3>
-           {final && <p>is Final</p>}
-           {initial && <p>is Initial</p>}
-         </div>
-       ))}
-     </div>
-      <div style={{ width: '20%', padding: 10 }}>
-        <Autocomplete
-          multiple
-          id="tags-outlined"
-          freeSolo
-          fullWidth
-          options={['0', '1', 'a', 'b', 'c']}
-          filterSelectedOptions
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="STRINGS"
-              placeholder="Strings"
-            />
-          )}
-        />
-        <Autocomplete
-          multiple
-          id="tags-outlined"
-          fullWidth
-          options={myArray.map(({ id }) => id)}
-          filterSelectedOptions
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Final States"
-              placeholder="final states"
-            />
-          )}
-        />
-      </div>
-      <div>
-        <h1>Strings:</h1>
-        {myAcceptableStrings.map(x => <p key={x}>{x}</p>)}
-      </div>
-      <div>
-        <GraphViz
-          transitions={transitions}
-          initialState={initialState}
-          finalStates={finalStates}
-          allStates={allStates}
-        />
-      </div>
-    </div>
+  {/* <GraphPage /> */}
+  <DefaultStatesPage />
 </>
 )
 

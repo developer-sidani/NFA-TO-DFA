@@ -1,2 +1,2 @@
 export { GraphPage } from './graph'
-export { MUIPage } from './temp'
+export { DefaultStatesPage } from './formPage'
