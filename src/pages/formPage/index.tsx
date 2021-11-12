@@ -1,15 +1,15 @@
 import React, { FC } from 'react'
-import { Formik, Form } from 'formik'
+import { Formik } from 'formik'
 import {
   Autocomplete,
-  Box,
   Button,
-  Card,
-  CardContent,
+  Card, CardActions,
+  CardContent, CardHeader, Divider,
   Grid,
   TextField,
 } from '@mui/material'
 import * as Yup from 'yup'
+import { toast } from 'react-hot-toast'
 import { wait } from '../../utils'
 
 const getFinalStates = (x:number):string[] => {
@@ -32,13 +32,15 @@ const DefaultStatesPage:FC = () => (
       })}
       initialValues={{
         states: 1,
-        strings: '',
-        finalStates: '',
+        strings: [],
+        finalStates: [],
       }}
-      onSubmit={async (values, { resetForm }) => {
+      onSubmit={async (values, { resetForm, setStatus, setSubmitting }) => {
         console.log(values)
-        // toast.success('Created Your Machine!')
-        await wait(850)
+        await wait(870)
+        toast.success('ok')
+        setStatus({ success: true })
+        setSubmitting(false)
         resetForm()
       }}
     >
@@ -52,21 +54,15 @@ const DefaultStatesPage:FC = () => (
         touched,
         values,
       }) => (
-        <Card sx={{ m: 20 }}>
-          <Box sx={{ p: 3 }}>
+        <form autoComplete="off" onSubmit={handleSubmit}>
+        <Card sx={{ mt: 20, mx: 5 }}>
+          <CardHeader title="NFA Configuration" />
+          <Divider />
             <CardContent>
-              <Form autoComplete="off">
                 <Grid
                   container
                   spacing={3}
                 >
-                  <Grid
-                    item
-                    md={12}
-                    xs={12}
-                  >
-                    <h1>NFA CONFIGURATION:</h1>
-                  </Grid>
                   <Grid
                     item
                     md={6}
@@ -74,6 +70,7 @@ const DefaultStatesPage:FC = () => (
                   >
                     <Autocomplete
                       multiple
+                      value={values.strings}
                       freeSolo
                       onOpen={handleBlur}
                       options={['0', '1', 'a', 'b', 'c']}
@@ -84,7 +81,6 @@ const DefaultStatesPage:FC = () => (
                         <TextField
                           onBlur={handleBlur}
                           name="strings"
-                          required
                           helperText={touched.strings && errors.strings}
                           error={Boolean(touched.strings && errors.strings)}
                           {...params}
@@ -122,6 +118,7 @@ const DefaultStatesPage:FC = () => (
                       multiple
                       onOpen={handleBlur}
                       options={getFinalStates(values.states)}
+                      value={values.finalStates}
                       filterSelectedOptions
                       onChange={(e, value) => setFieldValue('finalStates',
                         value || '')}
@@ -129,7 +126,6 @@ const DefaultStatesPage:FC = () => (
                         <TextField
                           onBlur={handleBlur}
                           name="finalStates"
-                          required
                           helperText={touched.finalStates && errors.finalStates}
                           error={Boolean(touched.finalStates
                             && errors.finalStates)}
@@ -141,23 +137,25 @@ const DefaultStatesPage:FC = () => (
                     />
                   </Grid>
                 </Grid>
-              </Form>
+                <CardActions
+                  sx={{
+                    flexWrap: 'wrap',
+                    m: -1,
+                  }}
+                >
+                  <Button
+                    disabled={isSubmitting}
+                    type="submit"
+                    sx={{ m: 1 }}
+                    variant="contained"
+                  >
+                    Submit
+                  </Button>
+                </CardActions>
 
             </CardContent>
-            <Box sx={{ mt: 2 }}>
-              {/* @ts-ignore */}
-              <Button
-                onClick={handleSubmit}
-                color="primary"
-                disabled={isSubmitting}
-                type="submit"
-                variant="contained"
-              >
-                Submit
-              </Button>
-            </Box>
-          </Box>
         </Card>
+        </form>
       )}
     </Formik>
 )
