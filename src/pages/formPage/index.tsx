@@ -15,6 +15,7 @@ const DefaultStatesPage:FC = () => (
     <Formik
       validationSchema={Yup.object({
         states: Yup.number()
+          .positive()
           .required(),
         strings: Yup.array().min(2).required(),
       })}
