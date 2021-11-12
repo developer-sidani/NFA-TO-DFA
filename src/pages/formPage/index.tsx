@@ -11,21 +11,32 @@ import {
 import * as Yup from 'yup'
 import { wait } from '../../utils'
 
+const getFinalStates = (x:number):string[] => {
+  const myArray:string[] = []
+  for (let i = 1; i <= x; i++) {
+    myArray.push(`q${i}`)
+  }
+  return myArray
+}
+
+console.log(getFinalStates(1))
+
 const DefaultStatesPage:FC = () => (
     <Formik
+      enableReinitialize
       validationSchema={Yup.object({
         states: Yup.number()
           .positive()
           .required(),
         strings: Yup.array().min(2).required(),
+        finalStates: Yup.array().min(1).required(),
       })}
       initialValues={{
         states: 1,
         strings: '',
+        finalStates: '',
       }}
       onSubmit={async (values, { resetForm }) => {
-        // @ts-ignore
-        // values.strings = defaultStrings
         console.log(values)
         await wait(500)
         resetForm()
@@ -62,9 +73,6 @@ const DefaultStatesPage:FC = () => (
                       filterSelectedOptions
                       onChange={(e, value) => setFieldValue('strings',
                         value || '')}
-                      // onChange={(e, newVal) => {
-                      //   handleChange(newVal)
-                      // }}
                       renderInput={(params) => (
                         <TextField
                           onBlur={handleBlur}
@@ -96,6 +104,33 @@ const DefaultStatesPage:FC = () => (
                       onChange={handleChange}
                       value={values.states}
                       variant="outlined"
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <Autocomplete
+                      multiple
+                      onOpen={handleBlur}
+                      options={getFinalStates(values.states)}
+                      filterSelectedOptions
+                      onChange={(e, value) => setFieldValue('finalStates',
+                        value || '')}
+                      renderInput={(params) => (
+                        <TextField
+                          onBlur={handleBlur}
+                          name="finalStates"
+                          required
+                          helperText={touched.finalStates && errors.finalStates}
+                          error={Boolean(touched.finalStates
+                            && errors.finalStates)}
+                          {...params}
+                          label="Final States"
+                          placeholder="Final States"
+                        />
+                      )}
                     />
                   </Grid>
                 </Grid>
