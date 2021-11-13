@@ -16,6 +16,7 @@ const myStates:State[] = [
   },
   {
     id: 'q4',
+    final: false,
   },
 ]
 

@@ -25,9 +25,9 @@ const GraphViz:FC<GraphvizProps> = ({
 	// q1 -> q1 [label = "b"];
 }`
   return (
-  <div>
+  <>
     <Graphviz dot={myFSM} />
-  </div>
+  </>
   )
 }
 

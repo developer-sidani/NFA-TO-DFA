@@ -1,10 +1,12 @@
 import React, { FC } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { DefaultStatesPage } from './pages'
 
 const App:FC = () => (
 <>
-  {/* <GraphPage /> */}
-  <DefaultStatesPage />
+   <Toaster />
+   {/* <GraphPage /> */}
+   <DefaultStatesPage />
 </>
 )
 
