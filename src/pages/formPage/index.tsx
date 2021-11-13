@@ -18,6 +18,7 @@ import {
   GetStringsStep, StepIcon,
 } from '../../components'
 import { wait } from '../../utils'
+import { State } from '../../types'
 
 export interface DefaultNfaConfig{
   strings:string[]
@@ -46,7 +47,15 @@ const DefaultStatesPage:FC = () => {
   }
   const navigate = useNavigate()
   const submitNFA = async ():Promise<void> => {
-    console.log(defaultConfig)
+    const myArray:State[] = []
+    for (let i = 1; i <= defaultConfig.statesCount; i++) {
+      myArray.push({
+        id: `q${i}`,
+        final: defaultConfig.finalStates.indexOf(`q${i}`) != -1,
+      })
+    }
+    myArray[0].initial = true
+    console.log(myArray, defaultConfig.strings)
     // reset form
     setDefaultConfig({
       strings: [],
