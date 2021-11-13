@@ -10,12 +10,14 @@ import {
   Stepper, Typography,
 } from '@mui/material'
 import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import {
   CheckIcon,
   GetFinalStatesStep,
   GetStatesStep,
   GetStringsStep, StepIcon,
 } from '../../components'
+import { wait } from '../../utils'
 
 export interface DefaultNfaConfig{
   strings:string[]
@@ -42,8 +44,8 @@ const DefaultStatesPage:FC = () => {
   const handleComplete = ():void => {
     setComplete(true)
   }
-
-  const submitNFA = ():void => {
+  const navigate = useNavigate()
+  const submitNFA = async ():Promise<void> => {
     console.log(defaultConfig)
     // reset form
     setDefaultConfig({
@@ -52,6 +54,8 @@ const DefaultStatesPage:FC = () => {
       finalStates: [],
     })
     toast.success('Machine Created Successfully!')
+    await wait(870)
+    navigate('/graph')
   }
   const steps = [
     {
@@ -95,6 +99,7 @@ const DefaultStatesPage:FC = () => {
       sx={{
         display: 'flex',
         flexGrow: 1,
+        maxWidth: '100%',
       }}
     >
       <Grid
@@ -106,13 +111,14 @@ const DefaultStatesPage:FC = () => {
           sm={4}
           xs={12}
           sx={{
-            backgroundImage: 'url(https://swall.teahub.io/photos/small/15-156799_computer-science-wallpapers-hd.png)',
+            // backgroundColor: 'blue',
+            // backgroundImage: 'url(https://swall.teahub.io/photos/small/15-156799_computer-science-wallpapers-hd.png)',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             display: {
               xs: 'none',
-              md: 'block',
+              md: 'fixed',
             },
           }}
         />
