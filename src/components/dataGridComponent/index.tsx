@@ -7,7 +7,7 @@ import {
   TableHead, TablePagination, TableRow, TextField,
   Typography,
 } from '@mui/material'
-import { Scrollbar } from '../index'
+import { Scrollbar } from '..'
 import { State } from '../../types'
 
 interface DataGridComponentProps {
