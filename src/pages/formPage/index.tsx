@@ -19,6 +19,9 @@ import {
 } from '../../components'
 import { wait } from '../../utils'
 import { State } from '../../types'
+import { useDispatch } from '../../store'
+import { createStates } from '../../slices/nfaStates'
+import { createStrings } from '../../slices/nfaStrings'
 
 export interface DefaultNfaConfig{
   strings:string[]
@@ -46,6 +49,7 @@ const DefaultStatesPage:FC = () => {
     setComplete(true)
   }
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const submitNFA = async ():Promise<void> => {
     const myArray:State[] = []
     for (let i = 1; i <= defaultConfig.statesCount; i++) {
@@ -55,7 +59,8 @@ const DefaultStatesPage:FC = () => {
       })
     }
     myArray[0].initial = true
-    console.log(myArray, defaultConfig.strings)
+    dispatch(createStates(myArray))
+    dispatch(createStrings(defaultConfig.strings))
     // reset form
     setDefaultConfig({
       strings: [],

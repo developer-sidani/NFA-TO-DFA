@@ -21,11 +21,12 @@ const slice = createSlice({
     },
     createStrings(
       state: NfaStrings,
-      action: PayloadAction<string>,
+      action: PayloadAction<string[]>,
     ): void {
-      state.Strings.push(action.payload)
+      state.Strings = action.payload
     },
   },
 })
+export const { getStrings, createStrings } = slice.actions
 
 export const { reducer } = slice
