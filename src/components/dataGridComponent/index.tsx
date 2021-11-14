@@ -4,11 +4,12 @@ import {
   Box, Table,
   TableBody,
   TableCell,
-  TableHead, TablePagination, TableRow, TextField,
+  TableHead,
+  TableRow, TextField,
   Typography,
 } from '@mui/material'
 import { Scrollbar } from '..'
-import { State } from '../../types'
+import { State, TransitionInterface } from '../../types'
 
 interface DataGridComponentProps {
   Strings: string[];
@@ -19,6 +20,9 @@ interface DataGridComponentProps {
   onRowsPerPageChange: (event: ChangeEvent<HTMLInputElement>) => void;
   page: number;
   rowsPerPage: number;
+  // @ts-ignore
+  setTransitionsObject:(data:TransitionInterface)=>void
+  transitionsObject:TransitionInterface
 }
 const DataGridComponent:FC<DataGridComponentProps> = ({
   Strings,
@@ -27,6 +31,8 @@ const DataGridComponent:FC<DataGridComponentProps> = ({
   onRowsPerPageChange,
   page,
   rowsPerPage,
+  setTransitionsObject,
+  transitionsObject,
   ...other
 }) => (
   <div {...other}>
@@ -90,9 +96,14 @@ const DataGridComponent:FC<DataGridComponentProps> = ({
                     fullWidth
                     autoComplete={false}
                     key={x}
+                    onChange={(e, value) => {
+                      transitionsObject[id][x] = value
+                      setTransitionsObject({
+                        ...transitionsObject,
+                      })
+                    }}
                     multiple
-                    options={States}
-                    getOptionLabel={option => option.id}
+                    options={States.map(({ id: label }) => label)}
                     filterSelectedOptions
                     renderInput={(params) => (
                       <TextField

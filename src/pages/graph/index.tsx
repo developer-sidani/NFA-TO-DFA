@@ -1,11 +1,11 @@
 import React, {
   ChangeEvent, FC, useEffect, useState,
 } from 'react'
-import { Grid } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from '../../store'
 import { DataGridComponent, GraphViz } from '../../components'
-import { State } from '../../types'
+import { State, TransitionInterface } from '../../types'
 import { getAllStates, getFinalStates, getInitialState } from '../../utils'
 
 const applyPagination = (
@@ -17,7 +17,20 @@ const GraphPage:FC = () => {
   const navigate = useNavigate()
   const { Strings } = useSelector((state) => state.nfaStrings)
   const { States } = useSelector((state) => state.nfaStates)
+  const myObj:TransitionInterface = {}
+  // eslint-disable-next-line array-callback-return
+  States.map(({ id }) => {
+    myObj[id] = {}
+    // eslint-disable-next-line array-callback-return
+    Strings.map(x => {
+      // eslint-disable-next-line array-callback-return
+      myObj[id][x] = []
+    })
+  })
   const [page, setPage] = useState<number>(0)
+  const [transitionsObject,
+    setTransitionsObject] = useState<TransitionInterface>(myObj)
+  console.log(transitionsObject)
   const [rowsPerPage, setRowsPerPage] = useState<number>(States.length || 10)
   // @ts-ignore
   const handlePageChange = (event: MouseEvent<HTMLButtonElement>
@@ -52,6 +65,8 @@ const GraphPage:FC = () => {
           onRowsPerPageChange={handleRowsPerPageChange}
           page={page}
           rowsPerPage={rowsPerPage}
+          transitionsObject={transitionsObject}
+          setTransitionsObject={setTransitionsObject}
         />
       </Grid>
       <Grid
@@ -60,12 +75,17 @@ const GraphPage:FC = () => {
         xs={12}
       >
         {States.length > 0 && (
+          <>
           <GraphViz
             transitions={{}}
             initialState={getInitialState(States)}
             finalStates={getFinalStates(States)}
             allStates={getAllStates(States)}
           />
+            <Button>
+              Convert
+            </Button>
+          </>
         )}
       </Grid>
     </Grid>
