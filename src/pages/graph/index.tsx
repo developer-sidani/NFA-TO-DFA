@@ -6,7 +6,12 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from '../../store'
 import { DataGridComponent, GraphViz } from '../../components'
 import { State, TransitionInterface } from '../../types'
-import { getAllStates, getFinalStates, getInitialState } from '../../utils'
+import {
+  convertTransitionObject,
+  getAllStates,
+  getFinalStates,
+  getInitialState, getTransitions,
+} from '../../utils'
 
 const applyPagination = (
   states: State[],
@@ -77,7 +82,7 @@ const GraphPage:FC = () => {
         {States.length > 0 && (
           <>
           <GraphViz
-            transitions={{}}
+            transitions={getTransitions(convertTransitionObject(transitionsObject))}
             initialState={getInitialState(States)}
             finalStates={getFinalStates(States)}
             allStates={getAllStates(States)}

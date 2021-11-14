@@ -4,7 +4,7 @@ import { getTransitions } from '../../utils'
 import { TransitionInterface } from '../../types'
 
 interface GraphvizProps{
-  transitions:TransitionInterface
+  transitions:TransitionInterface|string
   initialState:string
   finalStates:string[]
   allStates:string[]

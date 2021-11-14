@@ -17,3 +17,23 @@ export function getTransitions(obj:T,
     return acc + val
   }, '')
 }
+
+export function convertTransitionObject(obj:T):T {
+  const myNewObject:T = {}
+  // eslint-disable-next-line array-callback-return
+  Object.entries(obj).map(([key, value]) => {
+    myNewObject[key] = {}
+    // eslint-disable-next-line array-callback-return
+    Object.entries(value).map(([k, val]) => {
+      // @ts-ignore
+      // eslint-disable-next-line array-callback-return
+      val.map(x => {
+        if (!myNewObject[key][x]) {
+          myNewObject[key][x] = []
+        }
+        myNewObject[key][x].push(k)
+      })
+    })
+  })
+  return myNewObject
+}
