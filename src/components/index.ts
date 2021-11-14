@@ -1,2 +1,7 @@
 export { GraphViz } from './graphviz'
-// dev
+export { Check as CheckIcon } from './checkIcon'
+export { StepIcon } from './stepIcon'
+export { ArrowRight as ArrowRightIcon } from './arrowRightIcon'
+export { GetStringsStep } from './getStringsStep'
+export { GetStatesStep } from './getStatesStep'
+export { GetFinalStatesStep } from './getFinalStatesStep'
