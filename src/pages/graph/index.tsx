@@ -1,97 +1,74 @@
-import React, { FC } from 'react'
-import { Autocomplete, TextField } from '@mui/material'
+import React, {
+  ChangeEvent, FC, useEffect, useState,
+} from 'react'
+import { Grid } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from '../../store'
-import {
-  allStates,
-  finalStates,
-  initialState,
-  myAcceptableStrings,
-  myStates,
-  transitions,
-} from '../../tempData'
-import { GraphViz } from '../../components'
+import { DataGridComponent, GraphViz } from '../../components'
 import { State } from '../../types'
+import { getAllStates, getFinalStates, getInitialState } from '../../utils'
 
-const myArray:State[] = []
-for (let i = 1; i <= 4; i++) {
-  myArray.push({
-    id: `q${i}`,
-  })
-}
-myArray[0].initial = true
-
+const applyPagination = (
+  states: State[],
+  page: number,
+  rowsPerPage: number,
+): State[] => states.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 const GraphPage:FC = () => {
+  const navigate = useNavigate()
   const { Strings } = useSelector((state) => state.nfaStrings)
   const { States } = useSelector((state) => state.nfaStates)
-  console.log({ Strings, States })
+  const [page, setPage] = useState<number>(0)
+  const [rowsPerPage, setRowsPerPage] = useState<number>(States.length || 10)
+  // @ts-ignore
+  const handlePageChange = (event: MouseEvent<HTMLButtonElement>
+    | null, newPage: number): void => {
+    setPage(newPage)
+  }
+
+  const handleRowsPerPageChange = (event:
+    ChangeEvent<HTMLInputElement>): void => {
+    setRowsPerPage(parseInt(event.target.value, 10))
+  }
+  const paginatedStates = applyPagination(States, page, rowsPerPage)
+  useEffect(() => {
+    if (Strings.length <= 0) {
+      navigate('/')
+    }
+  }, [Strings, navigate])
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'space-around',
-    }}
+    <Grid
+      container
+      spacing={3}
     >
-      <div>
-        <h1>States:</h1>
-        {myStates.map(({
-          id: label,
-          final,
-          initial,
-        }) => (
-          <div key={label}>
-            <h3>{label}</h3>
-            {final && <p>is Final</p>}
-            {initial && <p>is Initial</p>}
-          </div>
-        ))}
-      </div>
-      <div style={{
-        width: '20%',
-        padding: 10,
-      }}
+      <Grid
+        item
+        md={6}
+        xs={12}
       >
-        <Autocomplete
-          multiple
-          id="tags-outlined"
-          freeSolo
-          fullWidth
-          options={['0', '1', 'a', 'b', 'c']}
-          filterSelectedOptions
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="STRINGS"
-              placeholder="Strings"
-            />
-          )}
+        <DataGridComponent
+          Strings={Strings}
+          States={paginatedStates}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleRowsPerPageChange}
+          page={page}
+          rowsPerPage={rowsPerPage}
         />
-        <Autocomplete
-          multiple
-          id="tags-outlined"
-          fullWidth
-          options={myArray.map(({ id }) => id)}
-          filterSelectedOptions
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Final States"
-              placeholder="final states"
-            />
-          )}
-        />
-      </div>
-      <div>
-        <h1>Strings:</h1>
-        {myAcceptableStrings.map(x => <p key={x}>{x}</p>)}
-      </div>
-      <div>
-        <GraphViz
-          transitions={transitions}
-          initialState={initialState}
-          finalStates={finalStates}
-          allStates={allStates}
-        />
-      </div>
-    </div>
+      </Grid>
+      <Grid
+        item
+        md={6}
+        xs={12}
+      >
+        {States.length > 0 && (
+          <GraphViz
+            transitions={{}}
+            initialState={getInitialState(States)}
+            finalStates={getFinalStates(States)}
+            allStates={getAllStates(States)}
+          />
+        )}
+      </Grid>
+    </Grid>
   )
 }
 
