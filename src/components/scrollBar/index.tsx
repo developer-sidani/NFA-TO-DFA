@@ -12,6 +12,7 @@ interface ScrollbarProps extends SimpleBar.Props {
 
 const ScrollbarRoot = styled(SimpleBar)``
 
+// eslint-disable-next-line max-len
 export const Scrollbar = forwardRef<MutableRefObject<SimpleBar>, ScrollbarProps>((props, ref) => (
     <ScrollbarRoot
       // @ts-ignore

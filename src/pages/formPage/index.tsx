@@ -61,22 +61,16 @@ const DefaultStatesPage:FC = () => {
     myArray[0].initial = true
     dispatch(createStates(myArray))
     dispatch(createStrings(defaultConfig.strings))
-    // reset form
-    setDefaultConfig({
-      strings: [],
-      statesCount: 0,
-      finalStates: [],
-    })
     toast.success('Machine Created Successfully!')
     await wait(870)
     navigate('/graph')
   }
+
   const steps = [
     {
       label: 'Strings',
       content: (
         <GetStringsStep
-          onBack={handleBack}
           onNext={handleNext}
           defaultConfig={defaultConfig}
           setDefaultConfig={setDefaultConfig}
@@ -116,6 +110,7 @@ const DefaultStatesPage:FC = () => {
         maxWidth: '100%',
       }}
     >
+
       <Grid
         container
         sx={{ flexGrow: 1 }}
@@ -125,8 +120,9 @@ const DefaultStatesPage:FC = () => {
           sm={4}
           xs={12}
           sx={{
-            // backgroundColor: 'blue',
-            // backgroundImage: 'url(https://swall.teahub.io/photos/small/15-156799_computer-science-wallpapers-hd.png)',
+            backgroundColor: 'blue',
+            backgroundImage: 'url(https://swall.teahub.io/'
+              + 'photos/small/15-156799_computer-science-wallpapers-hd.png)',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',

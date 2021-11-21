@@ -15,6 +15,7 @@ interface GetStatesStepProps {
   onNext: () => void;
   onBack: () => void;
   defaultConfig:DefaultNfaConfig
+  // eslint-disable-next-line no-unused-vars
   setDefaultConfig:(data:DefaultNfaConfig)=>void
 }
 

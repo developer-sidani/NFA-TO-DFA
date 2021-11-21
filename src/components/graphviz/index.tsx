@@ -15,6 +15,7 @@ const GraphViz:FC<GraphvizProps> = ({
 }) => {
   const myFSM = `digraph finite_state_machine {
 	rankdir=LR;
+	// bgcolor="#89CFF0"
 	size="8,5"
 	node [shape = doublecircle]; ${finalStates};
   init [label="", shape=point]

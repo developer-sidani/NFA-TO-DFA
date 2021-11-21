@@ -1,57 +1,117 @@
-import React, { ChangeEvent, FC } from 'react'
+import React, { FC, useState } from 'react'
 import {
   Autocomplete,
-  Box, Table,
+  Box,
+  Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+  Divider,
+  Table,
   TableBody,
   TableCell,
   TableHead,
-  TableRow, TextField,
+  TableRow,
+  TextField,
   Typography,
 } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
 import { Scrollbar } from '..'
 import { State, TransitionInterface } from '../../types'
+import { wait } from '../../utils'
 
 interface DataGridComponentProps {
   Strings: string[];
   States: State[];
   // @ts-ignore
-  onPageChange: (event: MouseEvent<HTMLButtonElement>
-    | null, newPage: number) => void;
-  onRowsPerPageChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  page: number;
-  rowsPerPage: number;
-  // @ts-ignore
+  // eslint-disable-next-line no-unused-vars
   setTransitionsObject:(data:TransitionInterface)=>void
   transitionsObject:TransitionInterface
 }
 const DataGridComponent:FC<DataGridComponentProps> = ({
   Strings,
   States,
-  onPageChange,
-  onRowsPerPageChange,
-  page,
-  rowsPerPage,
   setTransitionsObject,
   transitionsObject,
   ...other
-}) => (
-  <div {...other}>
-    <Scrollbar>
-      <Table sx={{ minWidth: 700 }}>
-        <TableHead>
-          <TableRow>
-            <TableCell>
-              States
-            </TableCell>
-            {Strings.map(x => (
-                <TableCell>
-                    {x}
+}) => {
+  const [open, setOpen] = useState<boolean>(false)
+  const navigate = useNavigate()
+  const handleClickOpen = ():void => {
+    setOpen(true)
+  }
+
+  const handleClose = ():void => {
+    setOpen(false)
+  }
+  const handleSubmit = async ():Promise<void> => {
+    setOpen(false)
+    toast.success('Machine Reset Successfully')
+    await wait(900)
+    navigate('/')
+  }
+  return (
+    <div {...other}>
+      <div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            Reset your Machine
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are You Sure That You Want to Reset Your
+              Machine and Reconfigure It?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleSubmit} autoFocus>
+              Reset
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+      <Scrollbar>
+        <Box
+          sx={{
+            backgroundColor: 'neutral.100',
+            // display: 'none',
+            px: 2,
+            py: 0.5,
+          }}
+        >
+          <Button
+            size="small"
+            color="error"
+            variant="outlined"
+            onClick={handleClickOpen}
+          >
+            Reset Machine
+          </Button>
+        </Box>
+        <Divider sx={{ mt: 2 }} />
+        <Table sx={{ minWidth: 700 }}>
+          <TableHead sx={{ visibility: 'visible' }}>
+            <TableRow>
+              <TableCell>
+                States
+              </TableCell>
+              {Strings.map(x => (
+                <TableCell key={x}>
+                  {x}
                 </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {States.map(({ id, final, initial }) => (
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {States.map(({
+              id,
+              final,
+              initial,
+            }) => (
               <TableRow
                 hover
                 key={id}
@@ -85,52 +145,44 @@ const DataGridComponent:FC<DataGridComponentProps> = ({
                   </Box>
                 </TableCell>
                 {Strings.map(x => (
-                  <TableCell>
-                  <Autocomplete
-                    ListboxProps={{
-                      style: {
-                        maxHeight: 200,
-                        overflow: 'auto',
-                      },
-                    }}
-                    fullWidth
-                    autoComplete={false}
-                    key={x}
-                    onChange={(e, value) => {
-                      transitionsObject[id][x] = value
-                      setTransitionsObject({
-                        ...transitionsObject,
-                      })
-                    }}
-                    multiple
-                    options={States.map(({ id: label }) => label)}
-                    filterSelectedOptions
-                    renderInput={(params) => (
-                      <TextField
-                        name={`${id}(${x})`}
-                        {...params}
-                        label={`${id}(${x})`}
-                        placeholder={x}
-                      />
-                    )}
-                  />
+                  <TableCell key={x}>
+                    <Autocomplete
+                      key={x}
+                      ListboxProps={{
+                        style: {
+                          maxHeight: 200,
+                          overflow: 'auto',
+                        },
+                      }}
+                      fullWidth
+                      autoComplete={false}
+                      onChange={(e, value) => {
+                        transitionsObject[id][x] = value
+                        setTransitionsObject({
+                          ...transitionsObject,
+                        })
+                      }}
+                      multiple
+                      options={States.map(({ id: label }) => label)}
+                      filterSelectedOptions
+                      renderInput={(params) => (
+                        <TextField
+                          name={`${id}(${x})`}
+                          {...params}
+                          label={`${id}(${x})`}
+                          placeholder={x}
+                        />
+                      )}
+                    />
                   </TableCell>
                 ))}
               </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Scrollbar>
-      {/* <TablePagination */}
-      {/*  component="div" */}
-      {/*  count={States?.length || 0} */}
-      {/*  onPageChange={onPageChange} */}
-      {/*  onRowsPerPageChange={onRowsPerPageChange} */}
-      {/*  page={page} */}
-      {/*  rowsPerPage={rowsPerPage} */}
-      {/*  rowsPerPageOptions={[5, 10, 25]} */}
-      {/* /> */}
-  </div>
-)
+            ))}
+          </TableBody>
+        </Table>
+      </Scrollbar>
+    </div>
+  )
+}
 
 export { DataGridComponent }

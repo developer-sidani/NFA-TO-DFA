@@ -14,8 +14,8 @@ import { DefaultNfaConfig } from '../../pages/formPage'
 
 interface GetStringsStepProps {
   onNext: () => void
-  onBack: () => void
   defaultConfig:DefaultNfaConfig
+  // eslint-disable-next-line no-unused-vars
   setDefaultConfig:(data:DefaultNfaConfig)=>void
 }
 

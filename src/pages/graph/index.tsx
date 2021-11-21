@@ -1,11 +1,15 @@
 import React, {
-  ChangeEvent, FC, useEffect, useState,
+  FC,
+  useEffect,
+  useState,
 } from 'react'
-import { Button, Grid } from '@mui/material'
+import {
+  Button, Grid, Box, Container, Divider, Typography, Link,
+} from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from '../../store'
 import { DataGridComponent, GraphViz } from '../../components'
-import { State, TransitionInterface } from '../../types'
+import { TransitionInterface } from '../../types'
 import {
   convertTransitionObject,
   getAllStates,
@@ -13,11 +17,6 @@ import {
   getInitialState, getTransitions,
 } from '../../utils'
 
-const applyPagination = (
-  states: State[],
-  page: number,
-  rowsPerPage: number,
-): State[] => states.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 const GraphPage:FC = () => {
   const navigate = useNavigate()
   const { Strings } = useSelector((state) => state.nfaStrings)
@@ -32,68 +31,101 @@ const GraphPage:FC = () => {
       myObj[id][x] = []
     })
   })
-  const [page, setPage] = useState<number>(0)
   const [transitionsObject,
     setTransitionsObject] = useState<TransitionInterface>(myObj)
-  console.log(transitionsObject)
-  const [rowsPerPage, setRowsPerPage] = useState<number>(States.length || 10)
-  // @ts-ignore
-  const handlePageChange = (event: MouseEvent<HTMLButtonElement>
-    | null, newPage: number): void => {
-    setPage(newPage)
-  }
-
-  const handleRowsPerPageChange = (event:
-    ChangeEvent<HTMLInputElement>): void => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-  }
-  const paginatedStates = applyPagination(States, page, rowsPerPage)
   useEffect(() => {
     if (Strings.length <= 0) {
       navigate('/')
     }
   }, [Strings, navigate])
   return (
-    <Grid
-      container
-      spacing={3}
-    >
-      <Grid
-        item
-        md={6}
-        xs={12}
+    <>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8,
+        }}
       >
-        <DataGridComponent
-          Strings={Strings}
-          States={paginatedStates}
-          onPageChange={handlePageChange}
-          onRowsPerPageChange={handleRowsPerPageChange}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          transitionsObject={transitionsObject}
-          setTransitionsObject={setTransitionsObject}
-        />
-      </Grid>
-      <Grid
-        item
-        md={6}
-        xs={12}
-      >
-        {States.length > 0 && (
-          <>
-          <GraphViz
-            transitions={getTransitions(convertTransitionObject(transitionsObject))}
-            initialState={getInitialState(States)}
-            finalStates={getFinalStates(States)}
-            allStates={getAllStates(States)}
-          />
-            <Button>
-              Convert
-            </Button>
-          </>
-        )}
-      </Grid>
-    </Grid>
+        <Container maxWidth="xl">
+          <Grid
+            container
+            justifyContent="space-between"
+            spacing={3}
+          >
+            <Grid item>
+              <Typography
+                color="textPrimary"
+                variant="h5"
+              >
+                Finite State Machine
+              </Typography>
+            </Grid>
+            <Box sx={{ m: -1 }}>
+              {/* @ts-ignore */}
+              <Link
+                color="textPrimary"
+                // component={RouterLink}
+                to="/merchants/create"
+                variant="subtitle2"
+                style={{
+                  textDecoration: 'none',
+                }}
+              >
+                <Button
+                  color="primary"
+                  // startIcon={<PlusIcon fontSize="small" />}
+                  sx={{ m: 1 }}
+                  variant="contained"
+                >
+                  Test String
+                </Button>
+              </Link>
+            </Box>
+          </Grid>
+          <Divider sx={{ my: 3 }} />
+          <Box sx={{ mt: 4 }}>
+            <Grid
+              container
+              justifyContent="space-between"
+              spacing={4}
+            >
+             <Grid
+               item
+               md={7}
+               xs={12}
+             >
+               <DataGridComponent
+                 Strings={Strings}
+                 States={States}
+                 transitionsObject={transitionsObject}
+                 setTransitionsObject={setTransitionsObject}
+               />
+             </Grid>
+             <Grid
+               item
+               md={5}
+               xs={12}
+             >
+              {States.length > 0 && (
+                <>
+                  <h1>NFA:</h1>
+                  <GraphViz
+                    transitions={getTransitions(
+                      convertTransitionObject(transitionsObject),
+                    )}
+                    initialState={getInitialState(States)}
+                    finalStates={getFinalStates(States)}
+                    allStates={getAllStates(States)}
+                  />
+                </>
+              )}
+             </Grid>
+            </Grid>
+          </Box>
+        </Container>
+      </Box>
+    </>
   )
 }
 
