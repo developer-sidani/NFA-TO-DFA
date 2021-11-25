@@ -19,14 +19,12 @@ interface GetStringsStepProps {
   setDefaultConfig:(data:DefaultNfaConfig)=>void
 }
 
-const GetStringsStep:FC<GetStringsStepProps> = (props) => {
-  const {
-    onNext,
-    defaultConfig,
-    setDefaultConfig,
-    ...other
-  } = props
-  return (
+const GetStringsStep:FC<GetStringsStepProps> = ({
+  onNext,
+  defaultConfig,
+  setDefaultConfig,
+  ...other
+}) => (
     <div {...other}>
       <Typography variant="h6">
         Enter Strings to your machine
@@ -118,7 +116,6 @@ const GetStringsStep:FC<GetStringsStepProps> = (props) => {
       </Box>
 
     </div>
-  )
-}
+)
 
 export { GetStringsStep }

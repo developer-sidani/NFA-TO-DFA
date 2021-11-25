@@ -4,9 +4,18 @@ import React, {
   useState,
 } from 'react'
 import {
-  Button, Grid, Box, Container, Divider, Typography, Link,
+  Button,
+  Grid,
+  Box,
+  Container,
+  Divider,
+  Typography,
+  Link,
+  DialogTitle,
+  DialogContent, Dialog, DialogContentText, TextField, DialogActions,
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
 import { useSelector } from '../../store'
 import { DataGridComponent, GraphViz } from '../../components'
 import { TransitionInterface } from '../../types'
@@ -14,10 +23,27 @@ import {
   convertTransitionObject,
   getAllStates,
   getFinalStates,
-  getInitialState, getTransitions,
+  getInitialState, getTransitions, testString, wait,
 } from '../../utils'
 
 const GraphPage:FC = () => {
+  const [open, setOpen] = useState<boolean>(false)
+  const [enteredString, setEnteredString] = useState<string>('')
+  const handleClickOpen = ():void => {
+    setOpen(true)
+  }
+
+  const handleClose = ():void => {
+    setOpen(false)
+  }
+  const handleSubmit = async ():Promise<void> => {
+    if (testString(enteredString)) {
+      toast.success(`${enteredString
+    || 'Empty String'} is Accepted`)
+    } else toast.error(`${enteredString || 'Empty String'} is Rejected`)
+    await wait(900)
+    setEnteredString('')
+  }
   const navigate = useNavigate()
   const { Strings } = useSelector((state) => state.nfaStrings)
   const { States } = useSelector((state) => state.nfaStates)
@@ -53,6 +79,29 @@ const GraphPage:FC = () => {
             justifyContent="space-between"
             spacing={3}
           >
+            <Dialog open={open} onClose={handleClose} fullWidth>
+              <DialogTitle>String</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Enter a String to Test in Your Machine
+                </DialogContentText>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="String"
+                  type="text"
+                  value={enteredString}
+                  onChange={(e) => setEnteredString(e.target.value)}
+                  fullWidth
+                  variant="standard"
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Close</Button>
+                <Button onClick={handleSubmit}>Test</Button>
+              </DialogActions>
+            </Dialog>
             <Grid item>
               <Typography
                 color="textPrimary"
@@ -75,6 +124,7 @@ const GraphPage:FC = () => {
                 <Button
                   color="primary"
                   // startIcon={<PlusIcon fontSize="small" />}
+                  onClick={handleClickOpen}
                   sx={{ m: 1 }}
                   variant="contained"
                 >
