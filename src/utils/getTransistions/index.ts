@@ -21,7 +21,7 @@ export function getTransitions(obj:T,
 export function convertTransitionObject(obj:T):T {
   const myNewObject:T = {}
   // eslint-disable-next-line array-callback-return
-  Object.entries(obj).map(([key, value]) => {
+  Object.entries(obj)?.map(([key, value]) => {
     myNewObject[key] = {}
     // eslint-disable-next-line array-callback-return
     Object.entries(value).map(([k, val]) => {

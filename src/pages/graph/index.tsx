@@ -20,6 +20,7 @@ import { useSelector } from '../../store'
 import { DataGridComponent, GraphViz } from '../../components'
 import { TransitionInterface } from '../../types'
 import {
+  convert,
   convertTransitionObject,
   getAllStates,
   getFinalStates,
@@ -47,6 +48,7 @@ const GraphPage:FC = () => {
   const navigate = useNavigate()
   const { Strings } = useSelector((state) => state.nfaStrings)
   const { States } = useSelector((state) => state.nfaStates)
+
   const myObj:TransitionInterface = {}
   // eslint-disable-next-line array-callback-return
   States.map(({ id }) => {
@@ -60,10 +62,12 @@ const GraphPage:FC = () => {
   const [transitionsObject,
     setTransitionsObject] = useState<TransitionInterface>(myObj)
   useEffect(() => {
-    if (Strings.length <= 0) {
+    if (States.length <= 0) {
       navigate('/')
     }
-  }, [Strings, navigate])
+  }, [Strings, navigate, States])
+  // @ts-ignore
+  const [myDfaTransition, myDfaStates] = convert(transitionsObject, States)
   return (
     <>
       <Box
@@ -171,6 +175,25 @@ const GraphPage:FC = () => {
                 </>
               )}
              </Grid>
+              <Grid
+                item
+                md={5}
+                xs={12}
+              >
+                {States.length > 0 && (
+                  <>
+                    <h1>NFA:</h1>
+                    <GraphViz
+                      transitions={getTransitions(
+                        convertTransitionObject(myDfaTransition),
+                      )}
+                      initialState={getInitialState(myDfaStates)}
+                      finalStates={getFinalStates(myDfaStates)}
+                      allStates={getAllStates(myDfaStates)}
+                    />
+                  </>
+                )}
+              </Grid>
             </Grid>
           </Box>
         </Container>
