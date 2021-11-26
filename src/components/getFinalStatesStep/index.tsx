@@ -50,17 +50,12 @@ const GetFinalStatesStep:FC<GetFinalStatesStepProps> = (props) => {
               finalStates: defaultConfig.finalStates || [],
               states: defaultConfig.statesCount,
             }}
-            onSubmit={(values, {
-              setStatus,
-              setSubmitting,
-            }) => {
+            onSubmit={(values) => {
               setDefaultConfig({
                 ...defaultConfig,
                 finalStates: values.finalStates,
               })
               onNext()
-              setStatus({ success: true })
-              setSubmitting(false)
             }}
           >
             {({
