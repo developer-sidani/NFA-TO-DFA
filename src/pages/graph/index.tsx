@@ -61,15 +61,16 @@ const GraphPage:FC = () => {
   })
   const [transitionsObject,
     setTransitionsObject] = useState<TransitionInterface>(myObj)
-  useEffect(() => {
-    if (States.length <= 0) {
-      navigate('/')
-    }
-  }, [Strings, navigate, States])
-  console.log(transitionsObject)
   // @ts-ignore
-  const dfa:any = convert(transitionsObject, States)
-  console.log(dfa)
+  const [dfa, setDfa] = useState<any>(convert(transitionsObject, States))
+  useEffect(() => {
+    if (States.length <= 0 || Strings.length <= 0) {
+      navigate('/')
+    } else {
+      setDfa(convert(transitionsObject, States))
+    }
+  }, [Strings, navigate, States, transitionsObject])
+
   return (
     <>
       <Box

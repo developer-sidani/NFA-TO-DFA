@@ -13,7 +13,8 @@ interface GraphvizProps{
 const GraphViz:FC<GraphvizProps> = ({
   finalStates, allStates, initialState, transitions,
 }) => {
-  const getFinalStates = finalStates.length > 0 ? `node [shape = doublecircle]; ${finalStates};` : ''
+  const getFinalStates = finalStates
+    .length > 0 ? `node [shape = doublecircle]; ${finalStates};` : ''
   const myFSM = `digraph finite_state_machine {
 	rankdir=LR;
 	size="8,5";
