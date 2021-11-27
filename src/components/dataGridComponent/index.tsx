@@ -2,7 +2,13 @@ import React, { FC, useState } from 'react'
 import {
   Autocomplete,
   Box,
-  Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+  Button,
+  Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Table,
   TableBody,
@@ -49,8 +55,7 @@ const DataGridComponent:FC<DataGridComponentProps> = ({
     navigate('/')
   }
   return (
-    <div {...other}>
-      <div>
+    <>
         <Dialog
           open={open}
           onClose={handleClose}
@@ -73,12 +78,11 @@ const DataGridComponent:FC<DataGridComponentProps> = ({
             </Button>
           </DialogActions>
         </Dialog>
-      </div>
+      <Card>
       <Scrollbar>
         <Box
           sx={{
             backgroundColor: 'neutral.100',
-            // display: 'none',
             px: 2,
             py: 0.5,
           }}
@@ -117,13 +121,8 @@ const DataGridComponent:FC<DataGridComponentProps> = ({
                 key={id}
               >
                 <TableCell>
-                  <Box
-                    sx={{
-                      alignItems: 'center',
-                      display: 'flex',
-                    }}
-                  >
-                    <Box sx={{ ml: 1 }}>
+                  <Box>
+                    <Box>
                       {id}
                       {initial && (
                         <Typography
@@ -181,7 +180,8 @@ const DataGridComponent:FC<DataGridComponentProps> = ({
           </TableBody>
         </Table>
       </Scrollbar>
-    </div>
+      </Card>
+    </>
   )
 }
 
