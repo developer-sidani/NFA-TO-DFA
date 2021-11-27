@@ -1,9 +1,14 @@
 // @ts-nocheck
-import { TransitionInterface } from '../../types'
+import { State, TransitionInterface } from '../../types'
 
-export const convertToDFA = (myNFAStates, myNFATransitions):any => {
+export const convertToDFA = (myNFAStates,
+  myNFATransitions):{myDFAStates:State[],
+  myDFATransitions:TransitionInterface } => {
   const myDFAStates = []
   const myDFATransitions = {}
+  if (myNFAStates.length < 1) {
+    return { myDFAStates, myDFATransitions }
+  }
   const trap = {
     id: 'Trap',
     final: false,

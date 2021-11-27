@@ -37,7 +37,6 @@ const DataGridComponent:FC<DataGridComponentProps> = ({
   States,
   setTransitionsObject,
   transitionsObject,
-  ...other
 }) => {
   const [open, setOpen] = useState<boolean>(false)
   const navigate = useNavigate()
