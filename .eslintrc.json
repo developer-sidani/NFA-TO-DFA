@@ -29,6 +29,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "eslint linebreak-style": ["off", "windows"],
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": ["warn"],
         "react/jsx-filename-extension": [ "warn", {"extensions": [".tsx"]} ],

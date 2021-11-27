@@ -4,7 +4,7 @@ import { getTransitions } from '../../utils'
 import { TransitionInterface } from '../../types'
 
 interface GraphvizProps{
-  transitions:TransitionInterface
+  transitions:TransitionInterface|string
   initialState:string
   finalStates:string[]
   allStates:string[]
@@ -13,11 +13,13 @@ interface GraphvizProps{
 const GraphViz:FC<GraphvizProps> = ({
   finalStates, allStates, initialState, transitions,
 }) => {
+  const getFinalStates = finalStates
+    .length > 0 ? `node [shape = doublecircle]; ${finalStates};` : ''
   const myFSM = `digraph finite_state_machine {
 	rankdir=LR;
-	size="8,5"
-	node [shape = doublecircle]; ${finalStates};
-  init [label="", shape=point]
+	size="8,5";
+	 ${getFinalStates}
+    init [label="", shape=point]
 	node [shape = circle];
   ${allStates}
   init -> ${initialState} [style="solid"]
@@ -25,9 +27,9 @@ const GraphViz:FC<GraphvizProps> = ({
 	// q1 -> q1 [label = "b"];
 }`
   return (
-  <div>
+  <>
     <Graphviz dot={myFSM} />
-  </div>
+  </>
   )
 }
 
