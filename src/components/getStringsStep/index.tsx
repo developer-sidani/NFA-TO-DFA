@@ -33,7 +33,7 @@ const GetStringsStep:FC<GetStringsStepProps> = ({
           <Formik
             enableReinitialize
             validationSchema={Yup.object({
-              strings: Yup.array().min(2).required(),
+              strings: Yup.array().min(1).required(),
             })}
             initialValues={{
               strings: defaultConfig.strings || [''],

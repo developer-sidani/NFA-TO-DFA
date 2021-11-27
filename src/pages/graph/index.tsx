@@ -143,6 +143,7 @@ const GraphPage:FC = () => {
              <Grid
                item
                md={6}
+               sm={12}
                xs={12}
              >
               {States.length > 0 && (
@@ -162,6 +163,7 @@ const GraphPage:FC = () => {
                <Grid
                  item
                  md={6}
+                 sm={12}
                  xs={12}
                >
                 {States.length > 0 && (

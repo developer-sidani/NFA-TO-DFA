@@ -20,7 +20,6 @@ import {
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
-import { Scrollbar } from '..'
 import { State, TransitionInterface } from '../../types'
 import { wait } from '../../utils'
 
@@ -78,7 +77,6 @@ const DataGridComponent:FC<DataGridComponentProps> = ({
           </DialogActions>
         </Dialog>
       <Card>
-      <Scrollbar>
         <Box
           sx={{
             backgroundColor: 'neutral.100',
@@ -178,7 +176,6 @@ const DataGridComponent:FC<DataGridComponentProps> = ({
             ))}
           </TableBody>
         </Table>
-      </Scrollbar>
       </Card>
     </>
   )
