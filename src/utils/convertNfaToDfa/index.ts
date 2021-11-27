@@ -1,36 +1,6 @@
 // @ts-nocheck
 import { State, TransitionInterface } from '../../types'
 
-// const nfas:State[] = [
-//   {
-//     id: 'q1',
-//     initial: true,
-//     final: false,
-//   },
-//   {
-//     id: 'q2',
-//     final: false,
-//   },
-//   {
-//     id: 'q3',
-//     final: true,
-//   },
-// ]
-//
-// const nfat:TransitionInterface = {
-//   q1: {
-//     a: ['q1', 'q2'],
-//     b: ['q1'],
-//   },
-//   q2: {
-//     a: [],
-//     b: ['q3'],
-//   },
-//   q3: {
-//     a: [],
-//     b: [],
-//   },
-// }
 export const convert = (myNFATransitions:TransitionInterface,
   myNFAStates:State[]):Record<TransitionInterface, State[]> => {
   const myDFAStates:State[] = []
@@ -52,7 +22,6 @@ export const convert = (myNFATransitions:TransitionInterface,
       // eslint-disable-next-line array-callback-return
       Object.keys(nfaTransitions[s]).map((e) => {
         if (!transition[e]) {
-          console.log(transition[e])
           transition[e] = nfaTransitions[s][e].sort()
         } else {
           transition[e].push(...nfaTransitions[s][e])
@@ -84,8 +53,8 @@ export const convert = (myNFATransitions:TransitionInterface,
       present = true
     }
     for (let value of values) {
-      if (value[0] !== trap.id) {
-        value = [value.sort().join()]
+      if (value?.[0] !== trap?.id) {
+        value = [value?.sort()?.join()]
         value = value[0]?.replace(/[, ]+/g, '').trim()
       }
       // console.log({ value });
@@ -99,9 +68,7 @@ export const convert = (myNFATransitions:TransitionInterface,
 
     // it enters here when first calling the function
     if (Object.keys(myDFATransitions).length === 0) {
-      // first we push the initial state the dfaStates and it's transitions
-      console.log(myNFAStates[0])
-      myDFAStates.push(myNFAStates[0])
+      myDFAStates.push(myNFAStates.filter(({ id }) => id === 'q1')[0])
       myDFATransitions[states[0]] = JSON.parse(JSON.stringify(transition))
       // eslint-disable-next-line array-callback-return
       Object.keys(myDFATransitions[states[0]]).map((e) => {
@@ -124,13 +91,13 @@ export const convert = (myNFATransitions:TransitionInterface,
     } else {
       states.forEach((state) => {
         let value
-        if (state[0] !== trap.id) {
-          value = state.sort().join()
-          value = value.replace(',', '')
+        if (state?.[0] !== trap?.id) {
+          value = state?.sort()?.join()
+          value = value?.replace(/[, ]+/g, '').trim()
         }
         if (
-          state[0] === trap.id.toString()
-          && !checkIfDfaHasState(myDFAStates, value || state[0])
+          state?.[0] === trap?.id?.toString()
+          && !checkIfDfaHasState(myDFAStates, value || state?.[0])
         ) {
           myDFAStates.push(trap)
           myDFATransitions[state] = JSON.parse(
@@ -141,7 +108,7 @@ export const convert = (myNFATransitions:TransitionInterface,
             (e) => (myDFATransitions[state][e] = [trap.id]),
           )
         } else if (
-          state.length > 1
+          state?.length > 1
           && !checkIfDfaHasState(myDFAStates, value)
         ) {
           state.sort()
@@ -175,27 +142,28 @@ export const convert = (myNFATransitions:TransitionInterface,
             }
           }
         } else if (
-          state.length === 1
-          && !checkIfDfaHasState(myDFAStates, value || state[0])
+          state?.length === 1
+          && !checkIfDfaHasState(myDFAStates, value || state?.[0])
         ) {
           myDFATransitions[state] = JSON.parse(
             JSON.stringify(myNFATransitions[state]),
           )
 
-          Object.keys(myDFATransitions[state]).forEach((e) => {
-            if (myDFATransitions[state][e].length === 0) {
-              myDFATransitions[state][e] = [trap.id]
+          Object.keys(myDFATransitions?.[state]).forEach((e) => {
+            if (myDFATransitions?.[state]?.[e].length === 0) {
+              myDFATransitions[state][e] = [trap?.id]
             }
             myDFATransitions[state][e] = myDFATransitions[state][e]
-              .sort()
-              .join()
+              ?.sort()
+              ?.join()
             myDFATransitions[state][e] = [
-              myDFATransitions[state][e].replace(',', ''),
+              myDFATransitions[state][e]?.replace(/[, ]+/g, '').trim(),
             ]
-            if (myDFATransitions[state][e][0] === trap.id) {
+            if (myDFATransitions[state][e][0] === trap?.id) {
               nextStates.push(myDFATransitions[state][e])
             } else {
-              nextStates.push(myDFATransitions[state][e][0].match(/.{1,2}/g))
+              nextStates
+                .push(myDFATransitions[state][e][0]?.match(/.{1,2}/g))
             }
           })
 
@@ -214,17 +182,11 @@ export const convert = (myNFATransitions:TransitionInterface,
       })
     }
 
-    conversion(transition, nextStates, myNFATransitions, myNFAStates)
+    conversion(transition, nextStates)
   }
   conversion(
     Object.values(myNFATransitions)[0],
     [['q1']],
-    myNFATransitions,
-    myNFAStates,
   )
-  return [myDFATransitions, myDFAStates]
+  return { myDFATransitions, myDFAStates }
 }
-// [myDFATransitions, myDFAStates] = convert(nfat, nfas)
-//
-// console.log({ myDFAStates })
-// console.log({ myDFATransitions })

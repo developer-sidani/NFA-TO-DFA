@@ -13,12 +13,12 @@ interface GraphvizProps{
 const GraphViz:FC<GraphvizProps> = ({
   finalStates, allStates, initialState, transitions,
 }) => {
+  const getFinalStates = finalStates.length > 0 ? `node [shape = doublecircle]; ${finalStates};` : ''
   const myFSM = `digraph finite_state_machine {
 	rankdir=LR;
-	// bgcolor="#89CFF0"
-	size="8,5"
-	node [shape = doublecircle]; ${finalStates};
-  init [label="", shape=point]
+	size="8,5";
+	 ${getFinalStates}
+    init [label="", shape=point]
 	node [shape = circle];
   ${allStates}
   init -> ${initialState} [style="solid"]

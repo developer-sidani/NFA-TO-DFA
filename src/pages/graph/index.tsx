@@ -1,7 +1,7 @@
 import React, {
   FC,
-  useEffect,
   useState,
+  useEffect,
 } from 'react'
 import {
   Button,
@@ -66,8 +66,10 @@ const GraphPage:FC = () => {
       navigate('/')
     }
   }, [Strings, navigate, States])
+  console.log(transitionsObject)
   // @ts-ignore
-  const [myDfaTransition, myDfaStates] = convert(transitionsObject, States)
+  const dfa:any = convert(transitionsObject, States)
+  console.log(dfa)
   return (
     <>
       <Box
@@ -175,25 +177,25 @@ const GraphPage:FC = () => {
                 </>
               )}
              </Grid>
-              <Grid
-                item
-                md={5}
-                xs={12}
-              >
+               <Grid
+                 item
+                 md={12}
+                 xs={12}
+               >
                 {States.length > 0 && (
                   <>
-                    <h1>NFA:</h1>
+                    <h1>DFA:</h1>
                     <GraphViz
                       transitions={getTransitions(
-                        convertTransitionObject(myDfaTransition),
+                        convertTransitionObject(dfa.myDFATransitions),
                       )}
-                      initialState={getInitialState(myDfaStates)}
-                      finalStates={getFinalStates(myDfaStates)}
-                      allStates={getAllStates(myDfaStates)}
+                      initialState={getInitialState(dfa.myDFAStates)}
+                      finalStates={getFinalStates(dfa.myDFAStates)}
+                      allStates={getAllStates(dfa.myDFAStates)}
                     />
                   </>
                 )}
-              </Grid>
+               </Grid>
             </Grid>
           </Box>
         </Container>
