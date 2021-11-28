@@ -12,7 +12,13 @@ import {
   Typography,
   Link,
   DialogTitle,
-  DialogContent, Dialog, DialogContentText, TextField, DialogActions, Alert,
+  DialogContent,
+  Dialog,
+  DialogContentText,
+  TextField,
+  DialogActions,
+  Alert,
+  Card,
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
@@ -143,11 +149,18 @@ const GraphPage:FC = () => {
              <Grid
                item
                md={6}
+               sm={12}
                xs={12}
              >
               {States.length > 0 && (
                 <>
-                  <h1>NFA:</h1>
+                <Typography
+                  sx={{ mb: 3 }}
+                  variant="h4"
+                >
+                  NFA:
+                </Typography>
+                <Card>
                   <GraphViz
                     transitions={getTransitions(
                       convertTransitionObject(transitionsObject),
@@ -156,33 +169,45 @@ const GraphPage:FC = () => {
                     finalStates={getFinalStates(States)}
                     allStates={getAllStates(States)}
                   />
+                </Card>
                 </>
               )}
              </Grid>
                <Grid
                  item
                  md={6}
+                 sm={12}
                  xs={12}
                >
                 {States.length > 0 && (
                   <>
-                    <h1>DFA:</h1>
+                  <Box sx={{ display: 'inline-flex' }}>
+                    <Typography
+                      sx={{ mb: 3 }}
+                      variant="h4"
+                    >
+                      DFA:
+                    </Typography>
                     {getFinalStates(dfa.myDFAStates).length < 1
                     && (
                       <Alert
                         severity="info"
+                        sx={{ mx: 1, mb: 4 }}
                       >
                         There Should Be at least 1 Final State
                       </Alert>
                     )}
-                    <GraphViz
-                      transitions={getTransitions(
-                        convertTransitionObject(dfa.myDFATransitions),
-                      )}
-                      initialState={getInitialState(dfa.myDFAStates)}
-                      finalStates={getFinalStates(dfa.myDFAStates)}
-                      allStates={getAllStates(dfa.myDFAStates)}
-                    />
+                  </Box>
+                    <Card>
+                      <GraphViz
+                        transitions={getTransitions(
+                          convertTransitionObject(dfa.myDFATransitions),
+                        )}
+                        initialState={getInitialState(dfa.myDFAStates)}
+                        finalStates={getFinalStates(dfa.myDFAStates)}
+                        allStates={getAllStates(dfa.myDFAStates)}
+                      />
+                    </Card>
                     <Box sx={{ m: -1 }}>
                       {/* @ts-ignore */}
                       <Link
@@ -195,7 +220,6 @@ const GraphPage:FC = () => {
                       >
                         <Button
                           color="primary"
-                          // startIcon={<PlusIcon fontSize="small" />}
                           onClick={handleClickOpen}
                           sx={{ m: 3, mx: 1 }}
                           variant="contained"

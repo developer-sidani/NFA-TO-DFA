@@ -32,10 +32,9 @@ const GetFinalStatesStep:FC<GetFinalStatesStepProps> = (props) => {
     onBack,
     defaultConfig,
     setDefaultConfig,
-    ...other
   } = props
   return (
-    <div {...other}>
+    <>
       <Typography variant="h6">
         Select Final States to your machine
       </Typography>
@@ -133,7 +132,7 @@ const GetFinalStatesStep:FC<GetFinalStatesStepProps> = (props) => {
           </Formik>
         </>
       </Box>
-    </div>
+    </>
   )
 }
 

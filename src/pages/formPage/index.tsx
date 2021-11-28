@@ -106,50 +106,35 @@ const DefaultStatesPage:FC = () => {
       component="main"
       sx={{
         display: 'flex',
+        justifyContent: 'center',
+        minWidth: '100%',
         flexGrow: 1,
-        maxWidth: '100%',
       }}
     >
-
       <Grid
         container
-        sx={{ flexGrow: 1 }}
       >
         <Grid
           item
-          sm={4}
           xs={12}
+          md={12}
           sx={{
-            backgroundColor: 'blue',
-            backgroundImage: 'url(https://swall.teahub.io/'
-              + 'photos/small/15-156799_computer-science-wallpapers-hd.png)',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            display: {
-              xs: 'none',
-              md: 'fixed',
-            },
-          }}
-        />
-        <Grid
-          item
-          xs={12}
-          md={8}
-          sx={{
+            minWidth: '100%',
             p: {
               xs: 4,
               sm: 6,
               md: 8,
             },
+            display: 'flex',
+            justifyContent: 'center',
           }}
         >
-          <Box maxWidth="sm">
+          <Box>
             <Typography
               sx={{ mb: 3 }}
               variant="h4"
             >
-              Create Deterministic Finite Automata
+              Create Finite State Machine
             </Typography>
             {
               !complete
@@ -221,7 +206,7 @@ const DefaultStatesPage:FC = () => {
                         flexWrap: 'wrap',
                         justifyContent: 'space-between',
                         mt: 2,
-                        px: 2,
+                        px: 3,
                         py: 1.5,
                       }}
                       variant="outlined"
@@ -235,7 +220,6 @@ const DefaultStatesPage:FC = () => {
                           variant="caption"
                         >
                           Number of States
-                          {' '}
                           <Typography
                             color="inherit"
                             noWrap
@@ -247,13 +231,6 @@ const DefaultStatesPage:FC = () => {
                         </Typography>
                       </div>
                       <div>
-                        <Typography
-                          color="textSecondary"
-                          sx={{ mr: 2 }}
-                          variant="caption"
-                        >
-                          1 minute ago
-                        </Typography>
                         <Button
                           onClick={submitNFA}
                         >
