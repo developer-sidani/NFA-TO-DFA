@@ -148,7 +148,12 @@ const GraphPage:FC = () => {
              >
               {States.length > 0 && (
                 <>
-                  <h1>NFA:</h1>
+                <Typography
+                  sx={{ mb: 3 }}
+                  variant="h4"
+                >
+                  NFA:
+                </Typography>
                   <GraphViz
                     transitions={getTransitions(
                       convertTransitionObject(transitionsObject),
@@ -168,7 +173,12 @@ const GraphPage:FC = () => {
                >
                 {States.length > 0 && (
                   <>
-                    <h1>DFA:</h1>
+                    <Typography
+                      sx={{ mb: 3 }}
+                      variant="h4"
+                    >
+                      DFA:
+                    </Typography>
                     {getFinalStates(dfa.myDFAStates).length < 1
                     && (
                       <Alert
@@ -197,7 +207,6 @@ const GraphPage:FC = () => {
                       >
                         <Button
                           color="primary"
-                          // startIcon={<PlusIcon fontSize="small" />}
                           onClick={handleClickOpen}
                           sx={{ m: 3, mx: 1 }}
                           variant="contained"

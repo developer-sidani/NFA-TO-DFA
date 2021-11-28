@@ -25,10 +25,9 @@ const GetStatesStep:FC<GetStatesStepProps> = (props) => {
     onBack,
     defaultConfig,
     setDefaultConfig,
-    ...other
   } = props
   return (
-    <div {...other}>
+    <>
       <Typography variant="h6">
         Enter States Count to your machine
       </Typography>
@@ -122,7 +121,7 @@ const GetStatesStep:FC<GetStatesStepProps> = (props) => {
         </>
       </Box>
 
-    </div>
+    </>
   )
 }
 

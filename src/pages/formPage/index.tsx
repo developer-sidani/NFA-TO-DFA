@@ -105,37 +105,20 @@ const DefaultStatesPage:FC = () => {
     <Box
       component="main"
       sx={{
-        display: 'flex',
-        flexGrow: 1,
+        p: 0,
+        m: 0,
+        minHeight: '100%',
+        display: 'flex-column',
         maxWidth: '100%',
       }}
     >
-
       <Grid
         container
-        sx={{ flexGrow: 1 }}
       >
         <Grid
           item
-          sm={4}
-          xs={12}
-          sx={{
-            backgroundColor: 'blue',
-            backgroundImage: 'url(https://swall.teahub.io/'
-              + 'photos/small/15-156799_computer-science-wallpapers-hd.png)',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            display: {
-              xs: 'none',
-              md: 'fixed',
-            },
-          }}
-        />
-        <Grid
-          item
-          xs={12}
-          md={8}
+          xs={8}
+          md={12}
           sx={{
             p: {
               xs: 4,
@@ -149,7 +132,7 @@ const DefaultStatesPage:FC = () => {
               sx={{ mb: 3 }}
               variant="h4"
             >
-              Create Deterministic Finite Automata
+              Create Finite State Machine
             </Typography>
             {
               !complete

@@ -23,9 +23,8 @@ const GetStringsStep:FC<GetStringsStepProps> = ({
   onNext,
   defaultConfig,
   setDefaultConfig,
-  ...other
 }) => (
-    <div {...other}>
+    <>
       <Typography variant="h6">
         Enter Strings to your machine
       </Typography>
@@ -115,7 +114,7 @@ const GetStringsStep:FC<GetStringsStepProps> = ({
           </Formik>
       </Box>
 
-    </div>
+    </>
 )
 
 export { GetStringsStep }
