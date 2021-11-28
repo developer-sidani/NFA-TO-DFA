@@ -105,11 +105,10 @@ const DefaultStatesPage:FC = () => {
     <Box
       component="main"
       sx={{
-        p: 0,
-        m: 0,
-        minHeight: '100%',
-        display: 'flex-column',
-        maxWidth: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        minWidth: '100%',
+        flexGrow: 1,
       }}
     >
       <Grid
@@ -117,17 +116,20 @@ const DefaultStatesPage:FC = () => {
       >
         <Grid
           item
-          xs={8}
+          xs={12}
           md={12}
           sx={{
+            minWidth: '100%',
             p: {
               xs: 4,
               sm: 6,
               md: 8,
             },
+            display: 'flex',
+            justifyContent: 'center',
           }}
         >
-          <Box maxWidth="sm">
+          <Box>
             <Typography
               sx={{ mb: 3 }}
               variant="h4"
@@ -204,7 +206,7 @@ const DefaultStatesPage:FC = () => {
                         flexWrap: 'wrap',
                         justifyContent: 'space-between',
                         mt: 2,
-                        px: 2,
+                        px: 3,
                         py: 1.5,
                       }}
                       variant="outlined"
@@ -218,7 +220,6 @@ const DefaultStatesPage:FC = () => {
                           variant="caption"
                         >
                           Number of States
-                          {' '}
                           <Typography
                             color="inherit"
                             noWrap
@@ -230,13 +231,6 @@ const DefaultStatesPage:FC = () => {
                         </Typography>
                       </div>
                       <div>
-                        <Typography
-                          color="textSecondary"
-                          sx={{ mr: 2 }}
-                          variant="caption"
-                        >
-                          1 minute ago
-                        </Typography>
                         <Button
                           onClick={submitNFA}
                         >
